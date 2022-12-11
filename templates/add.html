@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{%block content%}
+{% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+         <span class="alert alert-success">
+            {{ message }}
+         </span>
+      {% endfor %}
+   {% endif %}
+{% endwith %}
+<hr>
+<form action="{{url_for('adddata')}}" method="POST">
+    <label for="">Username</label>
+    <input type="text" name="username" class="form-control">
+    <label for="">Password</label>
+    <input type="text" name="password" class="form-control">
+    <label for="">Firstname</label>
+    <input type="text" name="fname" class="form-control">
+    <label for="">Lastname</label>
+    <input type="text" name="lname" class="form-control">
+    <label for="">Nickname</label>
+    <input type="text" name="nickname" class="form-control">
+    <br>
+    <input type="submit" value="Save" class="btn btn-success">
+</form>
+{% endblock %}

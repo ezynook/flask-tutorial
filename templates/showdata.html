@@ -10,6 +10,7 @@
             <td>Firstname</td>
             <td>Lastname</td>
             <td>Nickname</td>
+            <td colspan="2">จัดการ</td>
         </tr>
     </thead>
     {% for row in data %}
@@ -17,6 +18,10 @@
             <td>{{row.fname}}</td>
             <td>{{row.lname}}</td>
             <td>{{row.nickname}}</td>
+            <td>
+                <a href="/edit/{{row.id}}" class="btn btn-success btn-sm">แก้ไข</a>
+                <a href="/delete/{{row.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you delete?')">ลบ</a>
+            </td>
         </tr>
     {% endfor %}
 </table>

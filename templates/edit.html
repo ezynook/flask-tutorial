@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{%block content%}
+{%for row in data%}
+<form action="{{url_for('editdata')}}" method="POST">
+    <label for="">Firstname</label>
+    <input type="text" name="fname" class="form-control" value="{{row.fname}}">
+    <label for="">Lastname</label>
+    <input type="text" name="lname" class="form-control" value="{{row.lname}}">
+    <label for="">Nickname</label>
+    <input type="text" name="nickname" class="form-control" value="{{row.nickname}}">
+    <input type="hidden" name="id" value="{{row.id}}">
+    <br>
+    <input type="submit" value="Edit" class="btn btn-success">
+</form>
+{%endfor%}
+{% endblock %}
