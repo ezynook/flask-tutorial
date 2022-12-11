@@ -5,6 +5,7 @@ import sqlite3 as sql
 app = Flask(__name__)
 app.secret_key = 'MjkwOQ=='
 
+#Database Connect
 def dbConnect():
     try:
         con = sql.connect("flask.db")
@@ -12,15 +13,14 @@ def dbConnect():
         return [con, cur]
     except Exception as e:
         print('Error -> ', e)
-
+#Index Page
 @app.route("/")
 def index():
     if session.get("username") == None:
         return render_template("index.html")
     else:
         return render_template("home.html", data=session['username'])
-    
-    
+#Login
 @app.route("/home", methods=["POST"])
 def login():
     cur = dbConnect()[1]
@@ -33,11 +33,12 @@ def login():
     else:
         session['username'] = username
         return render_template("home.html", data=username)
+#Logout
 @app.route("/logout")
 def logout():
     session.clear()
     return render_template("index.html")
-
+#Show Data
 @app.route('/showdata')
 def showdata():
     if session.get("username") == None:
@@ -48,38 +49,11 @@ def showdata():
         df = pd.read_sql(sql , conn)
         mydict = df.to_dict('records')
         return render_template("showdata.html", data=mydict)
-
-@app.route('/edit/<id_data>')
-def edit(id_data):
-    conn = dbConnect()[0]
-    sql = f"SELECT * FROM users where id = {id_data}"
-    df = pd.read_sql(sql , conn)
-    mydict = df.to_dict('records')
-    return render_template("edit.html", data=mydict)
-
-@app.route('/editdata', methods=['POST'])
-def editdata():
-    conn = dbConnect()[0]
-    fname = request.form['fname']
-    lname = request.form['lname']
-    nickname = request.form['nickname']
-    id = request.form['id']
-    sql = f"UPDATE users SET fname = '{fname}', lname = '{lname}', nickname = '{nickname}' WHERE id = {id}"
-    conn.execute(sql)
-    conn.commit()
-    return redirect(url_for('showdata'))
-
-@app.route('/delete/<id_data>')
-def delete(id_data):
-    conn = dbConnect()[0]
-    conn.execute(f"DELETE from users where id = {id_data}")
-    conn.commit()
-    return redirect(url_for('showdata'))
-
+#Add Page
 @app.route('/add')
 def add():
     return render_template('add.html')
-
+#Add Data
 @app.route('/adddata', methods=['POST'])
 def adddata():
     conn = dbConnect()[0]
@@ -92,5 +66,33 @@ def adddata():
     conn.commit()
     flash("Save Data Successfully!")
     return render_template('add.html')
+#Edit page
+@app.route('/edit/<id_data>')
+def edit(id_data):
+    conn = dbConnect()[0]
+    sql = f"SELECT * FROM users where id = {id_data}"
+    df = pd.read_sql(sql , conn)
+    mydict = df.to_dict('records')
+    return render_template("edit.html", data=mydict)
+#Edit Data
+@app.route('/editdata', methods=['POST'])
+def editdata():
+    conn = dbConnect()[0]
+    fname = request.form['fname']
+    lname = request.form['lname']
+    nickname = request.form['nickname']
+    id = request.form['id']
+    sql = f"UPDATE users SET fname = '{fname}', lname = '{lname}', nickname = '{nickname}' WHERE id = {id}"
+    conn.execute(sql)
+    conn.commit()
+    return redirect(url_for('showdata'))
+#Delete
+@app.route('/delete/<id_data>')
+def delete(id_data):
+    conn = dbConnect()[0]
+    conn.execute(f"DELETE from users where id = {id_data}")
+    conn.commit()
+    return redirect(url_for('showdata'))
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001, debug=True)
