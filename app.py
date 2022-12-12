@@ -13,6 +13,7 @@ def dbConnect():
         return [con, cur]
     except Exception as e:
         print('Error -> ', e)
+
 #Index Page
 @app.route("/")
 def index():
@@ -20,6 +21,7 @@ def index():
         return render_template("index.html")
     else:
         return render_template("home.html", data=session['username'])
+
 #Login
 @app.route("/home", methods=["POST"])
 def login():
@@ -33,11 +35,13 @@ def login():
     else:
         session['username'] = username
         return render_template("home.html", data=username)
+
 #Logout
 @app.route("/logout")
 def logout():
     session.clear()
     return render_template("index.html")
+
 #Show Data
 @app.route('/showdata')
 def showdata():
@@ -49,6 +53,7 @@ def showdata():
         df = pd.read_sql(sql , conn)
         mydict = df.to_dict('records')
         return render_template("showdata.html", data=mydict)
+        
 #Add Page
 @app.route('/add')
 def add():
