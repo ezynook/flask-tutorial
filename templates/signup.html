@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{%block content%}
+<h2>
+   <span class="badge badge-info">
+      สมัครสมาชิก
+   </span>
+</h2>
+{% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+         <span class="alert alert-success">
+            {{ message }}
+         </span>
+      {% endfor %}
+   {% endif %}
+{% endwith %}
+<br>
+<form action="{{url_for('signup')}}" method="POST">
+    <label for="">Username</label>
+    <input type="text" name="username" class="form-control">
+    <label for="">Password</label>
+    <input type="password" name="password" class="form-control">
+    <label for="">Firstname</label>
+    <input type="text" name="fname" class="form-control">
+    <label for="">Lastname</label>
+    <input type="text" name="lname" class="form-control">
+    <label for="">Nickname</label>
+    <input type="text" name="nickname" class="form-control">
+    <br>
+    <input type="submit" value="Save" class="btn btn-success">
+    <a href="/" class="btn btn-primary">Return to home page</a>
+</form>
+{% endblock %}

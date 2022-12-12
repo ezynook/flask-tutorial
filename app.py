@@ -20,7 +20,7 @@ def index():
     if session.get("username") == None:
         return render_template("index.html")
     else:
-        return render_template("home.html", data=session['username'])
+        return redirect(url_for('showdata'))
 
 #Login
 @app.route("/home", methods=["POST"])
@@ -34,13 +34,26 @@ def login():
         return render_template("index.html", data="Login Failed")
     else:
         session['username'] = username
-        return render_template("home.html", data=username)
+        return redirect(url_for('showdata'))
 
-#Logout
-@app.route("/logout")
-def logout():
-    session.clear()
-    return render_template("index.html")
+#Signup-page
+@app.route("/signup-page")
+def signup_page():
+    return render_template('signup.html')
+
+#Signup
+@app.route("/signup", methods=['POST'])
+def signup():
+    conn = dbConnect()[0]
+    username = request.form['username']
+    password = request.form['password']
+    fname = request.form['fname']
+    lname = request.form['lname']
+    nickname = request.form['nickname']
+    conn.execute(f"INSERT INTO users (username,password,fname,lname,nickname) VALUES ('{username}','{password}','{fname}','{lname}','{nickname}')")
+    conn.commit()
+    flash("Signup Successfully!")
+    return render_template('index.html')
 
 #Show Data
 @app.route('/showdata')
@@ -52,8 +65,8 @@ def showdata():
         sql = "SELECT * FROM main.users"
         df = pd.read_sql(sql , conn)
         mydict = df.to_dict('records')
-        return render_template("showdata.html", data=mydict)
-        
+        return render_template("showdata.html", data=mydict, session=session['username'])
+
 #Add Page
 @app.route('/add')
 def add():
@@ -98,6 +111,12 @@ def delete(id_data):
     conn.execute(f"DELETE from users where id = {id_data}")
     conn.commit()
     return redirect(url_for('showdata'))
+
+#Logout
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001, debug=True)

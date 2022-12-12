@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,13 +8,36 @@
     <link rel="stylesheet" href="../static/style.css">
     <script src="../static/bootstrap.bundle.min.js"></script>
     <script src="../static/jquery.slim.min.js"></script>
-    <link rel = "stylesheet" href="../static/dataTables.bootstrap4.min.css">
-    <script src = "../static/jquery.dataTables.min.js"></script>
-    <script src = "../static/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" href="../static/dataTables.bootstrap4.min.css">
+    <script src="../static/jquery.dataTables.min.js"></script>
+    <script src="../static/dataTables.bootstrap4.min.js"></script>
     <title>Flask | Demo</title>
 </head>
 
 <body>
+    {% if request.endpoint != 'index' and request.endpoint != 'signup-page'  %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Flask | Demo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="{% if request.endpoint == 'showdata' %}nav-item active{%endif %}">
+                    <a class="nav-link" href="/showdata">แสดงข้อมูล</a>
+                </li>
+                <li class="{% if request.endpoint == 'add' %}nav-item active{%endif %}">
+                    <a class="nav-link" href="/add">เพิ่มข้อมูล</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">ลงชื่อออก</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% endif %}
     <div class="container mt-2">
         <main class="mt-2 container">
             {%block content%}
