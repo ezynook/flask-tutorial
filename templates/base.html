@@ -12,6 +12,23 @@
     <script src="../static/jquery.dataTables.min.js"></script>
     <script src="../static/dataTables.bootstrap4.min.js"></script>
     <title>Flask | Demo</title>
+    <style>
+        .pagination-page-info {
+    padding: .6em;
+    padding-left: 0;
+    width: 40em;
+    margin: .5em;
+    margin-left: 0;
+    font-size: 12px;
+}
+    .pagination-page-info b {
+        color: black;
+        background: #6aa6ed;
+        padding-left: 2px;
+        padding: .1em .25em;
+        font-size: 150%;
+    }
+    </style>
 </head>
 
 <body>
@@ -26,7 +43,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="{% if request.endpoint == 'showdata' %}nav-item active{%endif %}">
-                    <a class="nav-link" href="/showdata">แสดงข้อมูล</a>
+                    <a class="nav-link" href="{{url_for('showdata', page_num=1)}}">แสดงข้อมูล</a>
                 </li>
                 <li class="{% if request.endpoint == 'add' %}nav-item active{%endif %}">
                     <a class="nav-link" href="/add">เพิ่มข้อมูล</a>

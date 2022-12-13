@@ -10,14 +10,16 @@
 <table class="table table-striped table-bordered table-sm" id="showData">
     <thead>
         <tr>
+            <td>#</td>
             <td>Firstname</td>
             <td>Lastname</td>
             <td>Nickname</td>
             <td>จัดการ</td>
         </tr>
     </thead>
-    {% for row in data %}
+    {% for row in data.items %}
         <tr>
+            <td>{{ loop.index }}</td>
             <td>{{row.fname}}</td>
             <td>{{row.lname}}</td>
             <td>{{row.nickname}}</td>
@@ -28,10 +30,24 @@
         </tr>
     {% endfor %}
 </table>
-<a href="/" class="btn btn-warning">กลับสู่หน้าหลัก</a>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="{{url_for('showdata', page_num=data.has_prev)}}">Previous</a></li>
+        {% for page in data.iter_pages() %}
+            {% if page %}
+            <li class="page-item {% if pagelength == page %} active {% endif %}">
+                <a href="{{url_for('showdata', page_num=page)}}" class="page-link">{{page}}</a>
+            </li>
+            {% else %}
+            {% endif %}
+        {% endfor %}
+      <li class="page-item"><a class="page-link" href="{{url_for('showdata', page_num=data.last-1)}}">Next</a></li>
+    </ul>
+  </nav>
+
 <script>
-    $(document).ready(function () {
-        $('#showData').DataTable();
-    });
+    // $(document).ready(function () {
+    //     $('#showData').DataTable();
+    // });
 </script>
 {% endblock %}
