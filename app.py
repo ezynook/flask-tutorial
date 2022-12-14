@@ -46,7 +46,7 @@ def login():
         flash('Login Failure')
     else:
         session['username'] = c_username
-        return redirect(url_for('showdata', page_num=1))
+        return redirect(url_for('showdata', page_num=1, filter = None))
 
 #Signup-page
 @app.route("/signup-page")
@@ -69,16 +69,18 @@ def signup():
     return render_template('index.html')
 
 #Show Data
-@app.route('/showdata/<int:page_num>')
+@app.route('/showdata/<int:page_num>', methods=['GET'])
 def showdata(page_num):
-
+    filter = request.args.get('filter')
     if session.get("username") == None:
         return redirect(url_for("index"))
     else:
+        if filter:
+            result = users.query.filter(users.fname.like('%%'+filter+'%%')).paginate(per_page=3, page=page_num, error_out=False)
+        else:
+            result = users.query.paginate(per_page=3, page=page_num, error_out=False)
         
-        result = users.query.paginate(per_page=3, page=page_num, error_out=False)
-        
-        return render_template("showdata.html", data=result, session=session['username'],pagelength=page_num)
+        return render_template("showdata.html", data=result, session=session['username'], pagelength=page_num)
 
 #Add Page
 @app.route('/add')

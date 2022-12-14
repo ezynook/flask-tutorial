@@ -7,6 +7,13 @@
 <div class="alert alert-secondary" role="alert" align="center">
     แสดงข้อมูล
 </div>
+<form action="/showdata/1" method="get">
+    <label for="">ค้นหา</label>
+    <input type="text" name="filter" class="form-control">
+    <p></p>
+    <input type="submit" value="Search" class="btn btn-success">
+</form>
+<p></p>
 <table class="table table-striped table-bordered table-sm" id="showData">
     <thead>
         <tr>
@@ -41,7 +48,7 @@
             {% else %}
             {% endif %}
         {% endfor %}
-      <li class="page-item"><a class="page-link" href="{{url_for('showdata', page_num=data.last-1)}}">Next</a></li>
+      <li class="page-item"><a class="page-link" href="{{url_for('showdata', page_num=data.last)}}">Next</a></li>
     </ul>
   </nav>
 
