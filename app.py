@@ -2,6 +2,7 @@ from flask import *
 import os
 import pandas as pd
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'MjkwOQ=='
@@ -52,6 +53,14 @@ def login():
 @app.route("/signup-page")
 def signup_page():
     return render_template('signup.html')
+
+#Report
+@app.route("/report")
+def report():
+    today = datetime.now()
+    dt = today.strftime('%d/%m/%Y %H:%M:%S')
+    result = users.query.all()
+    return render_template('report.html', data=[result,dt])
 
 #Signup
 @app.route("/signup", methods=['POST'])
@@ -113,13 +122,13 @@ def editdata():
     item.lname = request.form['lname']
     item.nickname = request.form['nickname']
     db.session.commit()
-    return redirect(url_for('showdata'))
+    return redirect(url_for('showdata', page_num=1, filter = None))
 #Delete
 @app.route('/delete/<id_data>')
 def delete(id_data):
     users.query.filter_by(id=id_data).delete()
     db.session.commit()
-    return redirect(url_for('showdata'))
+    return redirect(url_for('showdata', page_num=1, filter = None))
 
 #Logout
 @app.route('/logout')

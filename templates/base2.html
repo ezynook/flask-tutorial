@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="../static/bootstrap.bundle.min.js"></script>
+    <script src="../static/jquery.slim.min.js"></script>
+    <link rel="stylesheet" href="../static/dataTables.bootstrap4.min.css">
+    <script src="../static/jquery.dataTables.min.js"></script>
+    <script src="../static/dataTables.bootstrap4.min.js"></script>
+    <title>Flask | Demo</title>
+    <style>
+        .pagination-page-info {
+    padding: .6em;
+    padding-left: 0;
+    width: 40em;
+    margin: .5em;
+    margin-left: 0;
+    font-size: 12px;
+}
+    .pagination-page-info b {
+        color: black;
+        background: #6aa6ed;
+        padding-left: 2px;
+        padding: .1em .25em;
+        font-size: 150%;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-2">
+        <main class="mt-2 container">
+            {%block content%}
+
+            {% endblock %}
+        </main>
+    </div>
+</body>
+
+</html>

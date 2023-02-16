@@ -1,0 +1,38 @@
+{% extends "base2.html" %}
+{%block content%}
+<div class="container mt-3">
+    <hr>
+    <div align="center"><h1>รายงานข้อมูล</h1></div>
+    <hr>
+    <table class="table table-bordered table-sm" id="showData" style="border-color: black;">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>Firstname</td>
+                <td>Lastname</td>
+                <td>Nickname</td>
+            </tr>
+        </thead>
+        {% for row in data[0] %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{row.fname}}</td>
+                <td>{{row.lname}}</td>
+                <td>{{row.nickname}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <div align="right">วันที่ออกรายงาน: {{data[1]}}</div>
+</div>
+<script>
+    $(document).ready(function(){
+        window.print();
+        window.onafterprint = back;
+
+        function back() {
+            // window.location.href="{{url_for('showdata', page_num=1)}}";
+            window.close();
+        }
+    });
+</script>
+{% endblock %}
